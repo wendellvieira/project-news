@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  # Serviço do PostgreSQL
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Serviço do back-end usando NestJS
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  # Serviço do front-end usando React
+  frontend:
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - ./frontend:/app # substitua './frontend' pelo caminho do seu projeto React no host
+    command: bash -c "npm install && npm start"
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
