@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as NewsAPI from 'newsapi';
+import { QueryTopHead } from 'src/interfaces/NewsApi';
 
 @Injectable()
 export class NewsService {
@@ -7,12 +8,21 @@ export class NewsService {
 		return new NewsAPI(process.env.NEWS_API_KEY);
 	}
 
-	topHeadlines() {
-		return this.signedApi.v2.topHeadlines({
-			category: 'business',
+	topHeadlines(queries: QueryTopHead) {
+		const search: any = {
 			language: 'en',
-			country: 'us',
-		});
+		};
+
+		if (!queries.sources) {
+			search.country = queries.country || 'us';
+			search.category = queries.category || 'technology';
+		} else {
+			search.sources = queries.sources;
+		}
+
+		if (queries.q) search.q = queries.q;
+
+		return this.signedApi.v2.topHeadlines(search);
 	}
 
 	everything() {

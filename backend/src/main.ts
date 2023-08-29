@@ -10,7 +10,7 @@ async function bootstrap() {
 
 	SwaggerConfig(app);
 
-	await app.listen(3000);
+	await app.listen(4040);
 }
 
 bootstrap();

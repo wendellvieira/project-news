@@ -1,13 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { NewsService } from './news.service';
+import { QueryTopHead } from 'src/interfaces/NewsApi';
 
 @Controller('news')
 export class NewsController {
 	constructor(private readonly newsService: NewsService) {}
 
 	@Get('top-headlines')
-	findTopHeadlines() {
-		return this.newsService.topHeadlines();
+	findTopHeadlines(@Query() queries: QueryTopHead) {
+		return this.newsService.topHeadlines(queries);
 	}
 
 	@Get('everything')

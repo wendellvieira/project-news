@@ -11,3 +11,21 @@ export interface iArticleHead {
 	publishedAt: Date;
 	content?: string;
 }
+
+export interface iSource {
+	id: string;
+	name: string;
+	description: string;
+	url: string;
+	category: string;
+	language: string;
+	country: string;
+}
+
+export interface QueryTopHead {
+	q?: string;
+	sources?: string;
+	category?: string;
+	language?: string;
+	country?: string;
+}
